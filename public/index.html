@@ -1,78 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>LocalStorage</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <div class="wrapper">
-    <h2>Cities</h2>
-    <p></p>
-    <ul class="places">
-      <li>Loading Destinations...</li>
-    </ul>
-    <form class="add-places">
-      <input type="text" name="place" placeholder="Location" required>
-      <input type="submit" value="+ Add">
-    </form>
-  </div>
+  <head>
+    <meta charset="UTF-8">
+    <title>Quick API Handler</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <div class="wrapper1">
+      <h2>Cities</h2>
+      <p></p>
+      <ul class="places">
+        <li>Loading Destinations...</li>
+      </ul>
+      <form class="add-places">
+        <input type="text" name="place" placeholder="Location" required>
+        <input type="submit" value="+ Add">
+      </form>
+    </div>
+    <div class="wrapper2" style="margin-top: 2rem;">
+      <h2>Tickets</h2>
+      <p></p>
+      <button class="search">New Search</button>
+      <ul class="tickets">
+        <li>Finding Tickets...</li>
+      </ul>
+    </div>
 
-<script>
-  const addCity = document.querySelector('.add-places');
-  const cityList = document.querySelector('.places');
-  const cities = JSON.parse(localStorage.getItem('cities')) || [];
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="App.js"></script>
 
-  function handleAddCity(e) {
-    e.preventDefault()
-    const text = (document.querySelector('[name=place]')).value;
-    const city = {
-      text,
-      done: false
-    }
-    cities.push(city);
-    populateList(cities, cityList);
-    localStorage.setItem('cities', JSON.stringify(cities))
-    this.reset();
-  }
-
-  function handleRemoveCity(e) {
-    console.log(e);
-    cities.filter((city, index) => index !== e.target.dataset.index)
-    populateList(cities, cityList);
-    localStorage.setItem('cities', JSON.stringify(cities))
-  }
-
-  function populateList(items = [], itemList) {
-    itemList.innerHTML = items.map((item, index) => {
-      return `
-      <li>
-        <input type="checkbox" data-index=${index} id="item${index}" ${item.done ? 'checked' : ''} />
-        <label for="item${index}">${item.text}</label>
-        <button btn-index=${index} class="remove">☒</button>
-        </li>
-        `;
-      }).join('');
-    }
-
-    function toggleDone(e) {
-      if (!e.target.matches('input')) return;
-      const element = e.target;
-      cities[element.dataset.index].done = !cities[element.dataset.index].done;
-      localStorage.setItem('cities', JSON.stringify(cities));
-      populateList(cities, cityList);
-    }
-
-    addCity.addEventListener('submit', handleAddCity);
-    cityList.addEventListener('click', toggleDone);
-
-    populateList(cities, cityList)
-    // const buttons = document.querySelectorAll('[.remove]');
-    // console.log(cities, buttons);
-    // buttons.addEventListener('click', handleRemoveCity);
-
-</script>
-
-
-</body>
+  </body>
 </html>
